@@ -1,2 +1,2 @@
-include ':analog'
+include ':analog', ':app'
 rootProject.name='Common'
