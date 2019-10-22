@@ -104,8 +104,7 @@ private fun Analog.log(msg: String, priority: Int = DEBUG, throwable: Throwable?
 
         }
         ASSERT -> {
-            AndroidLog.e(tag, msg, throwable)
-            assert(false) { "Analog ASSERT" }
+            AndroidLog.wtf(tag, msg, throwable)
         }
     }
 }
@@ -136,6 +135,10 @@ fun Analog.e(msg: String, throwable: Throwable? = null) {
         log(msg, ERROR, throwable)
 }
 
+fun Analog.wtf(msg: String, throwable: Throwable? = null) {
+    log(msg, ASSERT, throwable)
+}
+
 // 支持 lazy 创建字符串
 fun Analog.v(throwable: Throwable? = null, getMsg: () -> String) {
     if (isLoggable(VERBOSE)) {
@@ -161,4 +164,40 @@ fun Analog.w(throwable: Throwable? = null, getMsg: () -> String) {
 fun Analog.e(throwable: Throwable? = null, getMsg: () -> String) {
     if (isLoggable(ERROR))
         e(getMsg(), throwable)
+}
+
+fun Analog.wtf(throwable: Throwable? = null, getMsg: () -> String) {
+   wtf(getMsg(), throwable)
+}
+
+// 无 throwable
+fun Analog.v(getMsg: () -> String) {
+    if (isLoggable(VERBOSE)) {
+        v(getMsg())
+    }
+}
+
+fun Analog.d(getMsg: () -> String) {
+    if (isLoggable(DEBUG))
+        d(getMsg())
+}
+
+fun Analog.i(getMsg: () -> String) {
+    if (isLoggable(INFO))
+        i(getMsg())
+}
+
+fun Analog.w(getMsg: () -> String) {
+    if (isLoggable(WARN))
+        w(getMsg())
+}
+
+fun Analog.e(getMsg: () -> String) {
+    if (isLoggable(ERROR))
+        e(getMsg())
+}
+
+fun Analog.wtf(getMsg: () -> String) {
+    if (isLoggable(ERROR))
+        wtf(getMsg())
 }
