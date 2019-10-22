@@ -137,28 +137,28 @@ fun Analog.e(msg: String, throwable: Throwable? = null) {
 }
 
 // 支持 lazy 创建字符串
-fun Analog.v(getMsg: () -> String, throwable: Throwable? = null) {
+fun Analog.v(throwable: Throwable? = null, getMsg: () -> String) {
     if (isLoggable(VERBOSE)) {
         v(getMsg(), throwable)
     }
 }
 
-fun Analog.d(getMsg: () -> String, throwable: Throwable? = null) {
+fun Analog.d(throwable: Throwable? = null, getMsg: () -> String) {
     if (isLoggable(DEBUG))
         d(getMsg(), throwable)
 }
 
-fun Analog.i(getMsg: () -> String, throwable: Throwable? = null) {
+fun Analog.i(throwable: Throwable? = null, getMsg: () -> String) {
     if (isLoggable(INFO))
         i(getMsg(), throwable)
 }
 
-fun Analog.w(getMsg: () -> String, throwable: Throwable? = null) {
+fun Analog.w(throwable: Throwable? = null, getMsg: () -> String) {
     if (isLoggable(WARN))
         w(getMsg(), throwable)
 }
 
-fun Analog.e(getMsg: () -> String, throwable: Throwable? = null) {
+fun Analog.e(throwable: Throwable? = null, getMsg: () -> String) {
     if (isLoggable(ERROR))
         e(getMsg(), throwable)
 }
