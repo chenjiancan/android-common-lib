@@ -1,6 +1,5 @@
 package io.github.chenjiancan.android.analog
 
-import androidx.annotation.IntDef
 import io.github.chenjiancan.android.analog.Analog.Companion.VERBOSE
 import io.github.chenjiancan.android.analog.Analog.Companion.DEBUG
 import io.github.chenjiancan.android.analog.Analog.Companion.INFO
@@ -44,14 +43,14 @@ interface Analog {
         var isDebug = false
     }
 
-    val tag: String
-        get() = getTag(javaClass)
+    val _logTag: String
+        get() = getLogTag(javaClass)
 
     val realseMinLevel: Int
         get() = minLevel
 }
 
-private fun getTag(clazz: Class<*>): String {
+private fun getLogTag(clazz: Class<*>): String {
     val tag = clazz.simpleName
     return if (tag.length <= 23) {
         tag
@@ -60,17 +59,17 @@ private fun getTag(clazz: Class<*>): String {
     }
 }
 
-fun Analog(tag: String? = null, level: Int = DEBUG): Analog {
+fun Analog(logTag: String? = null, level: Int = DEBUG): Analog {
 
-    val trimTag = if (tag != null && tag.length <= 23) {
-        tag
+    val trimTag = if (logTag != null && logTag.length <= 23) {
+        logTag
     } else {
-        tag?.substring(0, 23)
+        logTag?.substring(0, 23)
     }
 
     return object : Analog {
-        override val tag: String
-            get() = trimTag ?: super.tag
+        override val _logTag: String
+            get() = trimTag ?: super._logTag
         override val realseMinLevel: Int
             get() = level
     }
@@ -81,30 +80,30 @@ fun Analog(tag: String? = null, level: Int = DEBUG): Analog {
 // release 模式，判断是否系统 property 允许打印
 fun Analog.isLoggable(priority: Int): Boolean {
     return (isDebug || priority >= realseMinLevel) &&
-            AndroidLog.isLoggable(tag, priority)
+            AndroidLog.isLoggable(_logTag, priority)
 }
 
 private fun Analog.log(msg: String, priority: Int = DEBUG, throwable: Throwable? = null) {
     when (priority) {
         VERBOSE -> {
-            AndroidLog.v(tag, msg, throwable)
+            AndroidLog.v(_logTag, msg, throwable)
         }
         DEBUG -> {
-            AndroidLog.d(tag, msg, throwable)
+            AndroidLog.d(_logTag, msg, throwable)
         }
         INFO -> {
-            AndroidLog.i(tag, msg, throwable)
+            AndroidLog.i(_logTag, msg, throwable)
         }
         WARN -> {
-            AndroidLog.w(tag, msg, throwable)
+            AndroidLog.w(_logTag, msg, throwable)
 
         }
         ERROR -> {
-            AndroidLog.e(tag, msg, throwable)
+            AndroidLog.e(_logTag, msg, throwable)
 
         }
         ASSERT -> {
-            AndroidLog.wtf(tag, msg, throwable)
+            AndroidLog.wtf(_logTag, msg, throwable)
         }
     }
 }
